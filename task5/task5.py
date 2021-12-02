@@ -1,7 +1,9 @@
-import urllib.request
+import unittest
+from unittest.mock import patch
 import json
-import pytest
-from unittest.mock import MagicMock
+import urllib.request
+import io
+import coverage
 
 
 API_URL = 'http://worldclockapi.com/api/json/utc/now'
@@ -19,8 +21,8 @@ def what_is_year_now() -> int:
     """
     Получает текущее время из API-worldclock и извлекает из поля 'currentDateTime' год
     Предположим, что currentDateTime может быть в двух форматах:
-      * YYYY-MM-DD - 2019-03-01
-      * DD.MM.YYYY - 01.03.2019
+      * YYYY-MM-DD - 2021-12-03
+      * DD.MM.YYYY - 03.12.2021
     """
     with urllib.request.urlopen(API_URL) as resp:
         resp_json = json.load(resp)
@@ -37,30 +39,49 @@ def what_is_year_now() -> int:
     return int(year_str)
 
 
-def test_date():
+class TestFunc(unittest.TestCase):
     """
-    Тестирование даты через '-'
+    Класс для тестирования функции 'what_is_year_now'
     """
-    json.load = MagicMock(return_value={"currentDateTime": "2021-12-02"})
-    assert 2021 == what_is_year_now()
+    def test_dash(self):
+        """
+        Тестирование записи через тире '-'
+        """
+        date_mock = '{"currentDateTime": "2021-12-03"}'
+        with patch.object(urllib.request, 'urlopen', return_value = io.StringIO(date_mock)):
+            actual = what_is_year_now()
+        expected = 2021
+        self.assertEqual(actual, expected)
 
-def test_date_point():
-    """
-    Тестирование даты через '.'
-    """
-    json.load = MagicMock(return_value={"currentDateTime": "02.12.2021"})
-    assert 2021 == what_is_year_now()
-    
-def test_not_type():
-    with pytest.raises(ValueError):
-        json.load = MagicMock(
-            return_value={"currentDateTime": "02/12/2021"})
-        what_is_year_now()
+    def test_point(self):
+        """
+        Тестирование записи через точку '.'
+        """
+        date_mock = '{"currentDateTime": "03.12.2021"}'
+        with patch.object(urllib.request, 'urlopen', return_value=io.StringIO(date_mock)):
+            actual = what_is_year_now()
+        expected = 2021
+        self.assertEqual(actual, expected)
+
+    def test_not_delimiter(self):
+        """
+        Тестирование исключения через разделитель '/'
+        """
+        date_mock = '{"currentDateTime": "03/12/2021"}'
+        with patch.object(urllib.request, 'urlopen', return_value=io.StringIO(date_mock)):
+            with self.assertRaises(ValueError):
+                what_is_year_now()
+
+    def test_not_date(self):
+        """
+        Тестрирование исключения на произвольный текст
+        """
+        date_mock = '{"currentDateTime": "1 2 3 4 5 no type"}'
+        with patch.object(urllib.request, 'urlopen', return_value=io.StringIO(date_mock)):
+            with self.assertRaises(ValueError):
+                what_is_year_now()
 
 
 if __name__ == '__main__':
-    year = what_is_year_now()
-    exp_year = 2021
+    unittest.main()
 
-    print(year)
-    assert year == exp_year
