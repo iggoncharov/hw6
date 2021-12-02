@@ -38,14 +38,6 @@ def test_equal():
     ]
     assert transformed_cities == exp_transformed_cities
 
-def test_in():
-    """
-    Проверяет, содержит ли в выводе fit_transform() часть верного ответа
-    """
-    cities = ['Moscow', 'New York', 'Moscow', 'London']
-    transformed_cities = fit_transform(cities)
-    exp_city_in = ('Moscow', [0, 0, 1])
-    assert exp_city_in in transformed_cities
 
 def test_not_in():
     """
@@ -56,6 +48,7 @@ def test_not_in():
     exp_city_in = ('Paris', [0, 0, 1])
     assert exp_city_in not in transformed_cities
 
+
 def test_empty():
     """
     Проверка на пустой список
@@ -64,6 +57,19 @@ def test_empty():
     transformed_cities = fit_transform(cities)
     exp_transformed_cities = []
     assert transformed_cities == exp_transformed_cities
+
+
+def test_args_equal():
+    """
+    Проверка на несколько аргументов
+    """
+    trasformer_names = fit_transform('Igor', 'Katya')
+    exp_transformed_names = [
+         ('Igor', [0, 1]),
+        ('Katya', [1, 0]),
+    ]
+    assert trasformer_names == exp_transformed_names
+
 
 def test_exception_empty():
     """
