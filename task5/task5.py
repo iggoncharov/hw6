@@ -50,6 +50,12 @@ def test_date_point():
     """
     json.load = MagicMock(return_value={"currentDateTime": "02.12.2021"})
     assert 2021 == what_is_year_now()
+    
+def test_not_type():
+    with pytest.raises(ValueError):
+        json.load = MagicMock(
+            return_value={"currentDateTime": "04/12/2020"})
+        what_is_year_now()
 
 
 if __name__ == '__main__':
