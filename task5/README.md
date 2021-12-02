@@ -1,1 +1,2 @@
-`python -m pytest task5.py`
+`python -m unittest task5.py
+`
