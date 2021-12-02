@@ -43,15 +43,6 @@ class TestFitTransform(unittest.TestCase):
         ]
         self.assertEqual(transformed_cities, exp_transformed_cities)
 
-    def test_in(self):
-        """
-        Проверяет, содержит ли в выводе fit_transform() часть верного ответа
-        """
-        cities = ['Moscow', 'New York', 'Moscow', 'London']
-        transformed_cities = fit_transform(cities)
-        exp_city_in = ('Moscow', [0, 0, 1])
-        self.assertIn(exp_city_in, transformed_cities)
-
     def test_not_in(self):
         """
         Проверяет, что в выводе не содержится неверное значение
@@ -69,6 +60,17 @@ class TestFitTransform(unittest.TestCase):
         transformed_cities = fit_transform(cities)
         exp_transformed_cities = []
         self.assertEqual(transformed_cities, exp_transformed_cities)
+
+    def test_args_equal(self):
+        """
+        Проверка на несколько аргументов
+        """
+        trasformer_names = fit_transform('Igor', 'Katya')
+        exp_transformed_names = [
+            ('Igor', [0, 1]),
+            ('Katya', [1, 0]),
+        ]
+        self.assertEqual(trasformer_names, exp_transformed_names)
 
     def test_exception_empty(self):
         """
