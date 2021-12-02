@@ -1,3 +1,7 @@
+Запуск: python -m doctest -v -o NORMALIZE_WHITESPACE task1.py
+
+
+Результат:
 Trying:
     encode('A'*7) # doctest: +ELLIPSIS
 Expecting:
