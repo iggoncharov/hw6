@@ -70,9 +70,9 @@ class TestFitTransform(unittest.TestCase):
         exp_transformed_cities = []
         self.assertEqual(transformed_cities, exp_transformed_cities)
 
-    def test_error_empty(self):
+    def test_exception_empty(self):
         """
-        Проверка исключение на 0 аргументов
+        Проверка исключения на 0 аргументов
         """
         with self.assertRaises(TypeError):
             fit_transform()
