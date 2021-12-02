@@ -1,0 +1,40 @@
+Trying:
+    encode('A'*7) # doctest: +ELLIPSIS
+Expecting:
+    '.- ... .-'
+ok
+Trying:
+    encode('AB')
+Expecting:
+    '.- -...'
+ok
+Trying:
+    encode('ABC DE')
+Expecting:
+    '.- -... -.-.   -.. .'
+ok
+Trying:
+    encode('SOS')
+Expecting:
+    '... --- ...'
+ok
+Trying:
+    encode(1)
+Expecting:
+    Traceback (most recent call last):
+    TypeError: 'int' object is not iterable
+ok
+Trying:
+    encode('aA')
+Expecting:
+    Traceback (most recent call last):
+    KeyError: 'a'
+ok
+2 items had no tests:
+    task1
+    task1.decode
+1 items passed all tests:
+   6 tests in task1.encode
+6 tests in 3 items.
+6 passed and 0 failed.
+Test passed.
