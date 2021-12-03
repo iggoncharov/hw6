@@ -49,9 +49,9 @@ class TestFunc(unittest.TestCase):
         """
         date_mock = '{"currentDateTime": "2021-12-03"}'
         with patch.object(urllib.request, 'urlopen', return_value = io.StringIO(date_mock)):
-            actual = what_is_year_now()
-        expected = 2021
-        self.assertEqual(actual, expected)
+            mock_year = what_is_year_now()
+        exp = 2021
+        self.assertEqual(mock_year, exp)
 
     def test_point(self):
         """
@@ -59,9 +59,9 @@ class TestFunc(unittest.TestCase):
         """
         date_mock = '{"currentDateTime": "03.12.2021"}'
         with patch.object(urllib.request, 'urlopen', return_value=io.StringIO(date_mock)):
-            actual = what_is_year_now()
-        expected = 2021
-        self.assertEqual(actual, expected)
+            mock_year = what_is_year_now()
+        exp = 2021
+        self.assertEqual(mock_year, exp)
 
     def test_not_delimiter(self):
         """
